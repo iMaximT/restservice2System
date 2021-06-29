@@ -1,33 +1,31 @@
 package restsevice.systemB.controller;
 
-import org.springframework.web.bind.annotation.*;
-import restsevice.systemB.model.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import restsevice.systemB.dto.PersonDTO;
+import restsevice.systemB.repository.PersonRepository;
+import restsevice.systemB.service.PersonSevice;
 import restsevice.systemB.service.ValidationService;
 
 @RestController
 public class SystemBController  {
-
-    private final ValidationService validationService = new ValidationService();
-/*    private Entity data = new Entity();
-
-    @GetMapping
-    public String get() {
-        data.setId("11");
-        data.setBirthday("2");
-        data.setDocument("3");
-        data.setFullName("4");
-        data.setImage("Any String you want".getBytes());
-
-        return data.toString();
-    }
-*/
+    @Autowired
+    private PersonSevice personSevice;
+    @Autowired
+    private PersonRepository personRepository;
+    @Autowired
+    private ValidationService validationService;
 
     @PostMapping
-    public String create(@RequestBody Entity inputData) {
+    public String create(@RequestBody PersonDTO inputData) {
 
         if (!validationService.validateEntity(inputData)) {
             return "отказ";
         }
+
+        personRepository.save(personSevice.mapToProductEntity(inputData));
         return "успех";
     }
 }

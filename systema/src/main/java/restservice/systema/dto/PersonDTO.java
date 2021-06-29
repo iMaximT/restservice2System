@@ -2,13 +2,11 @@ package restsevice.systemB.model;
 
 import lombok.Data;
 
-import java.awt.*;
-
 @Data
-public class Entity {
+public class PersonDTO {
     private String id;
     private String fullName;
-    private String Birthday;
+    private String birthday;
     private String document;
     private byte[] image;
 
